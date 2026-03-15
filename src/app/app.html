@@ -37,89 +37,98 @@
     </div>
   </main>
 
-  <details>
-    <button mat-raised-button color="primary">
-      Primary Button
-    </button>
-    <button mat-icon-button>
-      <mat-icon>favorite</mat-icon>
-    </button>
-    <button mat-raised-button color="accent" class="px-4 py-2">
-      Accent Button
-    </button>
+  <button mat-raised-button color="primary">
+    Primary Button
+  </button>
+  <button mat-icon-button>
+    <mat-icon>favorite</mat-icon>
+  </button>
+  <button mat-raised-button color="accent" class="px-4 py-2">
+    Accent Button
+  </button>
 
 
-    @if (loading) {
-    <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
-    }
+  @if (loading) {
+  <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
+  }
 
-    <div class="content">
-      <h1 class="text-3xl font-bold">Test Assignment</h1>
+  <div class="content">
+    <h1 class="text-3xl font-bold">Test Assignment</h1>
 
-      <p>Create an Angular application for displaying data about npm packages with the following interface:</p>
-      <img src="Screenshot 2026-03-13 233335.png" alt="Screenshot of the expected UI" class="my-4 border rounded" />
-      <ul>
-        <li>On startup, the application should send a request to load package data (see the API section).</li>
-        <li>
-          Each package should be displayed as a card:
-          <ul>
-            <li>
-              The header must display the package name. If the name is scoped (contains <code>/</code>),
-              the first part (scope) should be highlighted with a different color.
-            </li>
-            <li>
-              The body must display the number of downloads and number of dependencies. If the number exceeds
-              1000, it should be rounded down to thousands and displayed with the letter “K”.
-            </li>
-          </ul>
-        </li>
-        <li>
-          When hovering over a card:
-          <ul>
-            <li>Its header should be highlighted.</li>
-            <li>
-              The headers of all cards representing packages that are dependencies of the hovered package
-              should also be highlighted with a different color (for example, <code>tslib</code> is a
-              dependency of <code>@angular/core</code>).
-            </li>
-          </ul>
-        </li>
-        <li>The package list must be scrollable.</li>
-        <li>The user should be able to filter packages by name.</li>
-        <li>The user should be able to reload all data using a button or another mechanism.</li>
-      </ul>
+    <p>Create an Angular application for displaying data about npm packages with the following interface:</p>
+    <img src="Screenshot 2026-03-13 233335.png" alt="Screenshot of the expected UI" class="my-4 border rounded" />
+    <ul>
+      <li>On startup, the application should send a request to load package data (see the API section).</li>
+      <li>
+        Each package should be displayed as a card:
+        <ul>
+          <li>
+            The header must display the package name. If the name is scoped (contains <code>/</code>),
+            the first part (scope) should be highlighted with a different color.
+          </li>
+          <li>
+            The body must display the number of downloads and number of dependencies. If the number exceeds
+            1000, it should be rounded down to thousands and displayed with the letter “K”.
+          </li>
+        </ul>
+      </li>
+      <li>
+        When hovering over a card:
+        <ul>
+          <li>Its header should be highlighted.</li>
+          <li>
+            The headers of all cards representing packages that are dependencies of the hovered package
+            should also be highlighted with a different color (for example, <code>tslib</code> is a
+            dependency of <code>@angular/core</code>).
+          </li>
+        </ul>
+      </li>
+      <li>The package list must be scrollable.</li>
+      <li>The user should be able to filter packages by name.</li>
+      <li>The user should be able to reload all data using a button or another mechanism.</li>
+    </ul>
 
-      <h2 class="text-2xl font-semibold mt-8">API</h2>
+    <h2 class="text-2xl font-semibold mt-8">API</h2>
 
-      <p>For testing, use the Node.js API: <strong>mock-interview-api</strong></p>
+    <p>For testing, use the Node.js API: <strong>mock-interview-api</strong></p>
 
-      <h3 class="text-xl font-semibold mt-6">GET /packages – returns a list of all packages:</h3>
+    <h3 class="text-xl font-semibold mt-6">GET /packages – returns a list of all packages:</h3>
 
-      <pre><code>&lbrace;
+    <pre><code>&lbrace;
         id: string;
         weeklyDownloads: number;
         dependencyCount: number;
       &rbrace;[]
       </code></pre>
 
-      <h3 class="text-xl font-semibold mt-6">GET /packages/:id/dependencies – Returns a list of dependency package IDs
-        for the specified package:</h3>
+    <h3 class="text-xl font-semibold mt-6">GET /packages/:id/dependencies – Returns a list of dependency package IDs
+      for the specified package:</h3>
 
-      <pre><code>string[]
+    <pre><code>string[]
       </code></pre>
 
-      <h2 class="text-2xl font-semibold mt-8">Additional Notes</h2>
+    <h2 class="text-2xl font-semibold mt-8">Additional Notes</h2>
 
-      <ul>
-        <li>The use of third-party libraries is allowed.</li>
-        <li>
-          The UI design and level of visual detail are up to you (a complex interface with animations, etc.,
-          will not be taken into account during evaluation).
-        </li>
-      </ul>
+    <ul>
+      <li>The use of third-party libraries is allowed.</li>
+      <li>
+        The UI design and level of visual detail are up to you (a complex interface with animations, etc.,
+        will not be taken into account during evaluation).
+      </li>
+    </ul>
 
-    </div>
-  </details>
+    <h2 class="text-2xl font-semibold mt-8">Even more</h2>
+    <ul>
+      <li>add those layout empty fakes during loading</li>
+      <li>make api call error handling</li>
+      <li>make sure the loader is displayed</li>
+      <li>make sure it's scrollable</li>
+      <li>dependencies label is too small compared to the number</li>
+      <li>change colors of card to match instructions</li>
+      <li>check behavior on small screens</li>
+    </ul>
+
+  </div>
   <footer>
     <mat-toolbar color="primary" class="h-14 flex items-center justify-center">
       <span class="text-xs">
