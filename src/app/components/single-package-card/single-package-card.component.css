@@ -8,3 +8,84 @@ mat-card {
     box-shadow 0.2s,
     color 0.2s;
 }
+.package-card {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: var(--pkg-bg);
+  color: var(--pkg-text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.package-card.is-hovered {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  border-color: var(--pkg-border-hover);
+}
+
+.package-card.is-dependency:not(.is-hovered) {
+  border-color: var(--pkg-border-dependency);
+}
+
+.package-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.package-card.is-hovered .package-header {
+  color: var(--pkg-header-hover);
+}
+
+.package-card.is-dependency:not(.is-hovered) .package-header {
+  color: var(--pkg-header-dependency);
+}
+
+.package-scope {
+  color: var(--pkg-scope);
+}
+
+.package-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.downloads {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.downloads mat-icon {
+  color: var(--pkg-icon);
+  font-size: 1rem;
+}
+
+.deps {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.deps .dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: var(--pkg-dot);
+  border-radius: 9999px;
+}
+
+.value {
+  font-weight: 500;
+}
+
+.label {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
