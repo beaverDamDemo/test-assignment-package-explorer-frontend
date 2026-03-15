@@ -39,6 +39,10 @@ mat-card {
   transition: color 0.2s;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .package-card.is-hovered .package-header {
