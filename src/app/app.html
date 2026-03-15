@@ -15,16 +15,12 @@
   </header>
 
   <main class="flex-grow p-3">
-    <!-- <div class="max-w-sm">
-      <app-single-package-card></app-single-package-card>
-    </div> -->
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       @for (p of packages(); track p.id) {
-      <app-single-package-card [pkg]="p" />
+      <app-single-package-card [pkg]="p" [isHovered]="hoveredPackage() === p.id"
+        [isDependency]="highlightedDependencies().has(p.id)" (hoverStart)="onHoverStart(p)" (hoverEnd)="onHoverEnd()" />
       }
     </div>
-
   </main>
 
   <details>
@@ -42,7 +38,6 @@
     @if (loading) {
     <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
     }
-    <!-- <router-outlet></router-outlet> -->
 
     <div class="content">
       <h1 class="text-3xl font-bold">Test Assignment</h1>

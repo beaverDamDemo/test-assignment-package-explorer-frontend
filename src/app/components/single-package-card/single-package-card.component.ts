@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
@@ -12,6 +12,11 @@ import { SinglePackage } from '../../interfaces/single-package';
 })
 export class SinglePackageCard {
   @Input() pkg!: SinglePackage;
+  @Input() isHovered = false;
+  @Input() isDependency = false;
+  @Output() hoverStart = new EventEmitter<void>();
+  @Output() hoverEnd = new EventEmitter<void>();
+
   get scope() {
     return this.pkg.id.includes('/') ? this.pkg.id.split('/')[0] : null;
   }

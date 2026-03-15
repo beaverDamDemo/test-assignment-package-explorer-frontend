@@ -1,7 +1,8 @@
-<mat-card
-  class="p-4 rounded-xl shadow-md bg-surface text-on-surface hover:shadow-lg transition-all cursor-pointer border border-transparent hover:border-emerald-400">
-
-  <div class="flex items-baseline gap-1 text-lg font-semibold">
+<mat-card class="p-4 rounded-xl shadow-md transition-all cursor-pointer border border-transparent"
+  (mouseenter)="hoverStart.emit()" (mouseleave)="hoverEnd.emit()" [class.shadow-lg]="isHovered"
+  [class.border-emerald-400]="isHovered" [class.border-sky-400]="isDependency">
+  <div class="flex items-baseline gap-1 text-lg font-semibold transition-colors" [class.text-emerald-400]="isHovered"
+    [class.text-sky-400]="isDependency && !isHovered">
     @if (scope) {
     <span class="text-emerald-400">{{ scope }}</span>
     <span>/{{ name }}</span>
@@ -11,18 +12,15 @@
   </div>
 
   <div class="flex items-center justify-between mt-3 text-sm">
-
     <div class="flex items-center gap-1">
       <mat-icon class="text-sky-400 text-base">download</mat-icon>
       <span class="font-medium">{{ formattedDownloads }}</span>
       <span class="text-xs opacity-70">downloads</span>
     </div>
-
     <div class="flex items-center gap-1">
       <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
       <span class="font-medium">{{ pkg.dependencyCount }}</span>
       <span class="text-xs opacity-70">dependencies</span>
     </div>
-
   </div>
 </mat-card>
