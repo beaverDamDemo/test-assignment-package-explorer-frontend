@@ -10,7 +10,7 @@ mat-card {
 }
 
 .package-card {
-  padding: 1.5rem;
+  padding: 0 1.5rem 1.5rem 1.5rem;
   border-radius: 0.75rem;
   background-color: var(--pkg-bg);
   color: var(--pkg-text);
@@ -19,6 +19,7 @@ mat-card {
   cursor: pointer;
   border: 1px solid transparent;
   min-height: 180px;
+  overflow: hidden;
 }
 
 .package-card.is-hovered {
@@ -37,12 +38,14 @@ mat-card {
   font-size: 1.125rem;
   font-weight: 600;
   transition: color 0.2s;
-  padding-bottom: 0.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.77rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   margin-left: -1.5rem;
   margin-right: -1.5rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+  background-color: var(--pkg-header-bg);
 }
 
 .package-card.is-hovered .package-header {
