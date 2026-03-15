@@ -8,8 +8,9 @@ mat-card {
     box-shadow 0.2s,
     color 0.2s;
 }
+
 .package-card {
-  padding: 1rem;
+  padding: 1.5rem;
   border-radius: 0.75rem;
   background-color: var(--pkg-bg);
   color: var(--pkg-text);
@@ -17,6 +18,7 @@ mat-card {
   transition: all 0.2s;
   cursor: pointer;
   border: 1px solid transparent;
+  min-height: 180px;
 }
 
 .package-card.is-hovered {
@@ -35,6 +37,8 @@ mat-card {
   font-size: 1.125rem;
   font-weight: 600;
   transition: color 0.2s;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .package-card.is-hovered .package-header {
@@ -51,9 +55,9 @@ mat-card {
 
 .package-body {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 0.75rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
   font-size: 0.875rem;
 }
 
@@ -64,21 +68,18 @@ mat-card {
 }
 
 .downloads mat-icon {
-  color: var(--pkg-icon);
   font-size: 1rem;
+  width: 16px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .deps {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-}
-
-.deps .dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  background-color: var(--pkg-dot);
-  border-radius: 9999px;
 }
 
 .value {
