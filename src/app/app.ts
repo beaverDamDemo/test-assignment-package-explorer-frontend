@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatButtonModule } from '@angular/material/button';
@@ -61,6 +61,15 @@ export class App implements OnInit {
   packages = signal<SinglePackage[]>(this.dummyPackages);
   hoveredPackage = signal<string | null>(null);
   highlightedDependencies = signal<Set<string>>(new Set());
+  filterText = signal('');
+  filteredPackages = computed(() => {
+    const text = this.filterText().toLowerCase().trim();
+    if (!text) return this.packages();
+    return this.packages().filter(p =>
+      p.id.toLowerCase().includes(text) ||
+      p.id.split('/').pop()?.toLowerCase().includes(text)
+    );
+  });
 
   ngOnInit() {
     this.themeService.theme$.subscribe(theme => {
