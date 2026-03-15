@@ -4,6 +4,9 @@
       <a routerLink="/" class="text-lg font-semibold">
         <img src="logo.png" alt="Logo" class="inline h-8 ml-2" />
       </a>
+
+      <h1>{{ title() }}</h1>
+
       <div class="flex items-center gap-2">
         <button class="p-2 flex cursor-pointer" mat-icon-button (click)="toggleTheme()" aria-label="Toggle theme">
           <mat-icon>

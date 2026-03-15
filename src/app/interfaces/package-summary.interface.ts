@@ -1,6 +1,5 @@
-export interface SinglePackage {
+export interface PackageSummary {
   id: string;
   weeklyDownloads: number;
   dependencyCount: number;
-  dependencies: string[];
 }

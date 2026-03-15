@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { SinglePackage } from '../../interfaces/single-package';
+import { PackageSummary } from '../../interfaces/package-summary.interface';
 
 @Component({
   selector: 'app-single-package-card',
@@ -11,7 +11,7 @@ import { SinglePackage } from '../../interfaces/single-package';
   styleUrl: './single-package-card.component.css',
 })
 export class SinglePackageCard {
-  @Input() pkg!: SinglePackage;
+  @Input() pkg!: PackageSummary;
   @Input() isHovered = false;
   @Input() isDependency = false;
   @Output() hoverStart = new EventEmitter<void>();

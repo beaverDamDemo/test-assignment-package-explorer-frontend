@@ -6,59 +6,29 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Theme, ThemeService } from './services/theme.service';
 import { SinglePackageCard } from './components/single-package-card/single-package-card.component';
-import { SinglePackage } from './interfaces/single-package';
+import { Packages } from './services/packages.service';
+import { PackageSummary } from './interfaces/package-summary.interface';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, MatProgressBarModule, SinglePackageCard],
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressBarModule,
+    SinglePackageCard
+  ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
 export class App implements OnInit {
-  protected readonly title = signal('angular-frontend');
+  protected readonly title = signal('Package Explorer');
   currentTheme: Theme = 'light';
   private readonly themeService = inject(ThemeService);
   currentYear = new Date().getFullYear();
   loading = true;
-  private readonly dummyPackages: SinglePackage[] = [
-    {
-      id: '@angular/core',
-      weeklyDownloads: 1234567,
-      dependencyCount: 2,
-      dependencies: ['rxjs', 'tslib']
-    },
-    {
-      id: '@angular/common',
-      weeklyDownloads: 987654,
-      dependencyCount: 1,
-      dependencies: ['tslib']
-    },
-    {
-      id: 'rxjs',
-      weeklyDownloads: 876543,
-      dependencyCount: 1,
-      dependencies: ['tslib']
-    },
-    {
-      id: 'tslib',
-      weeklyDownloads: 2345678,
-      dependencyCount: 0,
-      dependencies: []
-    },
-    {
-      id: 'express',
-      weeklyDownloads: 345,
-      dependencyCount: 1,
-      dependencies: ['body-parser']
-    },
-    {
-      id: 'body-parser',
-      weeklyDownloads: 543,
-      dependencyCount: 0,
-      dependencies: []
-    }
-  ];
-  packages = signal<SinglePackage[]>(this.dummyPackages);
+  packages = signal<PackageSummary[]>([]);
   hoveredPackage = signal<string | null>(null);
   highlightedDependencies = signal<Set<string>>(new Set());
   filterText = signal('');
@@ -70,25 +40,34 @@ export class App implements OnInit {
       p.id.split('/').pop()?.toLowerCase().includes(text)
     );
   });
+  dependencies: string[] = [];
+
+  constructor(private packagesService: Packages) { }
 
   ngOnInit() {
     this.themeService.theme$.subscribe(theme => {
       this.currentTheme = theme;
     });
-    setTimeout(() => {
-      this.packages = signal<SinglePackage[]>(this.dummyPackages);
-    }, 1000);
 
-    this.loading = false;
+    this.packagesService.getAll().subscribe(data => {
+      this.packages.set(data);
+      this.loading = false;
+    });
+  }
+
+  loadDependencies(id: string): void {
+    this.packagesService.getDependencies(id).subscribe(deps => {
+      this.dependencies = deps;
+    });
   }
 
   toggleTheme() {
     this.themeService.toggleTheme();
   }
 
-  onHoverStart(pkg: SinglePackage) {
+  onHoverStart(pkg: PackageSummary) {
     this.hoveredPackage.set(pkg.id);
-    this.highlightedDependencies.set(new Set(pkg.dependencies));
+    this.highlightedDependencies.set(new Set());
   }
 
   onHoverEnd() {
