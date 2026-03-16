@@ -31,6 +31,7 @@ export class App implements OnInit {
   packages = signal<PackageSummary[]>([]);
   hoveredPackage = signal<string | null>(null);
   highlightedDependencies = signal<Set<string>>(new Set());
+  readonly skeletonItems = Array.from({ length: 6 }, (_, i) => i);
   filterText = signal('');
   private dependencyCache = new Map<string, string[]>();
   filteredPackages = computed(() => {
