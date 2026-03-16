@@ -24,14 +24,15 @@ import { PackageSummary } from './interfaces/package-summary.interface';
 })
 export class App implements OnInit {
   protected readonly title = signal('Package Explorer');
+  loading = true;
   currentTheme: Theme = 'light';
   private readonly themeService = inject(ThemeService);
   currentYear = new Date().getFullYear();
-  loading = true;
   packages = signal<PackageSummary[]>([]);
   hoveredPackage = signal<string | null>(null);
   highlightedDependencies = signal<Set<string>>(new Set());
   filterText = signal('');
+  private dependencyCache = new Map<string, string[]>();
   filteredPackages = computed(() => {
     const text = this.filterText().toLowerCase().trim();
     if (!text) return this.packages();
@@ -40,7 +41,6 @@ export class App implements OnInit {
       p.id.split('/').pop()?.toLowerCase().includes(text)
     );
   });
-  dependencies: string[] = [];
 
   constructor(private packagesService: Packages) { }
 
@@ -49,29 +49,40 @@ export class App implements OnInit {
       this.currentTheme = theme;
     });
 
-    this.packagesService.getAll().subscribe(data => {
-      this.packages.set(data);
+    this.packagesService.getAll().subscribe(packages => {
+      this.packages.set(packages);
+
+      packages.forEach(pkg => {
+        this.packagesService.getDependencies(pkg.id).subscribe(deps => {
+          this.dependencyCache.set(pkg.id, deps);
+          console.log(`🎉 ~ Dependencies preloaded for ${pkg.id}:`, deps);
+        });
+      });
+
       this.loading = false;
     });
   }
 
-  loadDependencies(id: string): void {
-    this.packagesService.getDependencies(id).subscribe(deps => {
-      this.dependencies = deps;
-    });
-  }
-
-  toggleTheme() {
-    this.themeService.toggleTheme();
-  }
-
   onHoverStart(pkg: PackageSummary) {
     this.hoveredPackage.set(pkg.id);
-    this.highlightedDependencies.set(new Set());
+
+    const deps = this.dependencyCache.get(pkg.id);
+
+    if (deps) {
+      console.log(`🎉 ~ Dependencies already loaded for ${pkg.id}:`, deps);
+      this.highlightedDependencies.set(new Set(deps));
+    } else {
+      console.log(`🎉 ~ Dependencies NOT loaded yet for ${pkg.id}`);
+      this.highlightedDependencies.set(new Set());
+    }
   }
 
   onHoverEnd() {
     this.hoveredPackage.set(null);
     this.highlightedDependencies.set(new Set());
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
   }
 }

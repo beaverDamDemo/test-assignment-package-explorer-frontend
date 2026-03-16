@@ -16,6 +16,6 @@ export class Packages {
   }
 
   getDependencies(id: string): Observable<string[]> {
-    return this.http.get<string[]>(`${this.baseUrl}/${id}/dependencies`);
+    return this.http.get<string[]>(`${this.baseUrl}/${encodeURIComponent(id)}/dependencies`);
   }
 }
