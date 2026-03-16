@@ -4,6 +4,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatCardModule } from '@angular/material/card';
 import { Theme, ThemeService } from './services/theme.service';
 import { SinglePackageCard } from './components/single-package-card/single-package-card.component';
 import { Packages } from './services/packages.service';
@@ -17,6 +18,7 @@ import { PackageSummary } from './interfaces/package-summary.interface';
     MatButtonModule,
     MatIconModule,
     MatProgressBarModule,
+    MatCardModule,
     SinglePackageCard
   ],
   templateUrl: './app.html',
