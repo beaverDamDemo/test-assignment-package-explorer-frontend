@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, HostListener } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
@@ -9,11 +9,15 @@ import { PackageSummary } from '../../interfaces/package-summary.interface';
   imports: [CommonModule, MatIconModule, MatCardModule],
   templateUrl: './single-package-card.component.html',
   styleUrl: './single-package-card.component.css',
+  host: {
+    '[class.disabled]': 'disabled'
+  }
 })
 export class SinglePackageCard {
   @Input() pkg!: PackageSummary;
   @Input() isHovered = false;
   @Input() isDependency = false;
+  @Input() disabled = false;
   @Output() hoverStart = new EventEmitter<void>();
   @Output() hoverEnd = new EventEmitter<void>();
 
@@ -29,4 +33,19 @@ export class SinglePackageCard {
     const n = this.pkg.weeklyDownloads;
     return n >= 1000 ? Math.floor(n / 1000) + 'K' : n.toString();
   }
+
+  @HostListener('mouseenter')
+  onMouseEnter() {
+    if (!this.disabled) {
+      this.hoverStart.emit();
+    }
+  }
+
+  @HostListener('mouseleave')
+  onMouseLeave() {
+    if (!this.disabled) {
+      this.hoverEnd.emit();
+    }
+  }
+
 }

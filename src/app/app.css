@@ -72,3 +72,7 @@
 .skeleton-icon {
   background: rgba(0, 0, 0, 0.12);
 }
+
+.deps-loader {
+  height: 3px;
+}

@@ -15,22 +15,31 @@
         </button>
       </div>
     </mat-toolbar>
+    @if (dependenciesLoading()) {
+    <mat-progress-bar mode="indeterminate" color="accent" class="deps-loader">
+    </mat-progress-bar>
+    }
   </header>
 
-  <main class="flex-grow p-3" [attr.aria-busy]="loading">
-    <div class="mb-4 relative">
-      <input type="text" placeholder="Filter packages by name..."
-        class="w-full p-2 rounded border border-gray-300 bg-transparent" [value]="filterText()"
-        (input)="filterText.set($any($event.target).value)" [disabled]="loading" />
-      @if (filterText()) {
-      <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700
+  <main class="flex-grow p-3" [attr.aria-busy]="loading()">
+    <div class="mb-4 flex items-center gap-2">
+      <div class="relative flex-grow">
+        <input type="text" placeholder="Filter packages by name..."
+          class="w-full p-2 rounded border border-gray-300 bg-transparent" [value]="filterText()"
+          (input)="filterText.set($any($event.target).value)" [disabled]="loading()" />
+        @if (filterText()) {
+        <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700
          flex items-center justify-center w-6 h-6 rounded" (click)="filterText.set('')">
-        <mat-icon fontIcon="close" class="text-base"></mat-icon>
+          <mat-icon fontIcon="close" class="text-base"></mat-icon>
+        </button>
+        }
+      </div>
+      <button mat-icon-button (click)="reload()">
+        <mat-icon>refresh</mat-icon>
       </button>
-      }
     </div>
 
-    @if (loading) {
+    @if (loading()) {
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" aria-label="Loading packages">
       @for (index of skeletonItems; track index) {
       <div class="skeleton-card">
@@ -56,7 +65,8 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       @for (p of filteredPackages(); track p.id) {
       <app-single-package-card [pkg]="p" [isHovered]="hoveredPackage() === p.id"
-        [isDependency]="highlightedDependencies().has(p.id)" (hoverStart)="onHoverStart(p)" (hoverEnd)="onHoverEnd()" />
+        [isDependency]="highlightedDependencies().has(p.id)" (hoverStart)="onHoverStart(p)" (hoverEnd)="onHoverEnd()"
+        [disabled]="dependenciesLoading()" />
       }
     </div>
     }
@@ -73,7 +83,7 @@
   </button>
 
 
-  @if (loading) {
+  @if (loading()) {
   <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
   }
 

@@ -97,3 +97,13 @@ mat-card {
   font-size: 0.75rem;
   opacity: 0.7;
 }
+
+:host(.disabled) .card-header {
+  background-color: inherit !important;
+  cursor: default !important;
+  transition: none !important;
+}
+
+:host(.disabled) {
+  pointer-events: none;
+}

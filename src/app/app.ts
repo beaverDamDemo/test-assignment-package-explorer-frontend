@@ -29,8 +29,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class App implements OnInit {
   protected readonly title = signal('Package Explorer');
-  loading = true;
-  dependenciesLoading = true;
+  loading = signal(true);
+  dependenciesLoading = signal(true);
   currentTheme: Theme = 'light';
   private readonly themeService = inject(ThemeService);
   currentYear = new Date().getFullYear();
@@ -56,19 +56,29 @@ export class App implements OnInit {
       this.currentTheme = theme;
     });
 
+    this.loadAll();
+  }
+
+
+  private loadAll() {
+    this.loading.set(true);
+    this.dependenciesLoading.set(true);
+
+    this.packages.set([]);
+    this.dependencyCache.clear();
 
     this.packagesService.getAll().pipe(
       switchMap(packages => {
         this.packages.set(packages);
-        this.loading = false;
+        queueMicrotask(() => {
+          this.loading.set(false);
+        });
 
         const dependencyCalls = packages.map(pkg =>
           this.packagesService.getDependencies(pkg.id).pipe(
-            map(deps => {
-              return { id: pkg.id, deps };
-            }),
+            map(deps => ({ id: pkg.id, deps })),
             catchError(err => {
-              console.log(`%c✖ Failed to load dependencies for ${pkg.id}`, 'color:#F44336; font-weight:bold;', err);
+              console.log(`✖ Failed to load dependencies for ${pkg.id}`, err);
               return of({ id: pkg.id, deps: [] });
             })
           )
@@ -76,7 +86,7 @@ export class App implements OnInit {
 
         return forkJoin(dependencyCalls).pipe(
           catchError(err => {
-            console.log(`%c✖ Global dependency loading failure`, 'color:#F44336; font-weight:bold;', err);
+            console.log(`✖ Global dependency loading failure`, err);
             return of([]);
           })
         );
@@ -86,12 +96,16 @@ export class App implements OnInit {
         this.dependencyCache.set(id, deps);
       });
 
-      console.log('%c✔ All dependency requests completed', 'color:#FF9800; font-weight:bold;');
-      this.dependenciesLoading = false;
+      this.dependenciesLoading.set(false);
+
       this.snackBar.open('Dependencies loaded successfully!', 'OK', {
         duration: 1750
       });
     });
+  }
+
+  reload() {
+    this.loadAll();
   }
 
   onHoverStart(pkg: PackageSummary) {
