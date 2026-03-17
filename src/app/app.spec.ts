@@ -80,7 +80,7 @@ describe('App Component (Vitest)', () => {
     ]);
   });
 
-  it('should set loading to false after dependencies load', () => {
+  it('should set loading to false after dependencies load', async () => {
     packagesServiceMock.getAll = vi.fn().mockReturnValue(of([]));
     packagesServiceMock.getDependencies = vi.fn().mockReturnValue(of([]));
 
@@ -90,7 +90,11 @@ describe('App Component (Vitest)', () => {
     theme$.next('light');
     fixture.detectChanges();
 
-    expect([true, false]).toContain(component.loading);
+    expect(component.loading()).toBe(true);
+
+    await Promise.resolve();
+
+    expect(component.loading()).toBe(false);
   });
 
   it('should set hoveredPackage on hover start', () => {
