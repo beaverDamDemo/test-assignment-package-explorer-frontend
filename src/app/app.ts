@@ -10,6 +10,7 @@ import { SinglePackageCard } from './components/single-package-card/single-packa
 import { Packages } from './services/packages.service';
 import { PackageSummary } from './interfaces/package-summary.interface';
 import { catchError, forkJoin, map, of, switchMap } from 'rxjs';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,8 @@ import { catchError, forkJoin, map, of, switchMap } from 'rxjs';
     MatIconModule,
     MatProgressBarModule,
     MatCardModule,
-    SinglePackageCard
+    SinglePackageCard,
+    MatSnackBarModule
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
@@ -47,12 +49,13 @@ export class App implements OnInit {
     );
   });
 
-  constructor(private packagesService: Packages) { }
+  constructor(private packagesService: Packages, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.themeService.theme$.subscribe(theme => {
       this.currentTheme = theme;
     });
+
 
     this.packagesService.getAll().pipe(
       switchMap(packages => {
@@ -85,6 +88,9 @@ export class App implements OnInit {
 
       console.log('%c✔ All dependency requests completed', 'color:#FF9800; font-weight:bold;');
       this.dependenciesLoading = false;
+      this.snackBar.open('Dependencies loaded successfully!', 'OK', {
+        duration: 1750
+      });
     });
   }
 
