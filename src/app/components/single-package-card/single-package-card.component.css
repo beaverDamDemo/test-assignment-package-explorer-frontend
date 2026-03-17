@@ -84,8 +84,8 @@ mat-card {
 }
 
 .deps {
-  display: flex;
-  align-items: center;
+  display: inline-flex;
+  align-items: baseline;
   gap: 0.25rem;
 }
 
