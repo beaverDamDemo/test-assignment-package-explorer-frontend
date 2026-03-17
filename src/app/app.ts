@@ -28,6 +28,7 @@ import { catchError, forkJoin, map, of, switchMap } from 'rxjs';
 export class App implements OnInit {
   protected readonly title = signal('Package Explorer');
   loading = true;
+  dependenciesLoading = true;
   currentTheme: Theme = 'light';
   private readonly themeService = inject(ThemeService);
   currentYear = new Date().getFullYear();
@@ -56,6 +57,7 @@ export class App implements OnInit {
     this.packagesService.getAll().pipe(
       switchMap(packages => {
         this.packages.set(packages);
+        this.loading = false;
 
         const dependencyCalls = packages.map(pkg =>
           this.packagesService.getDependencies(pkg.id).pipe(
@@ -82,7 +84,7 @@ export class App implements OnInit {
       });
 
       console.log('%c✔ All dependency requests completed', 'color:#FF9800; font-weight:bold;');
-      this.loading = false;
+      this.dependenciesLoading = false;
     });
   }
 
