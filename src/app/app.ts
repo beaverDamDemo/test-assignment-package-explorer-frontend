@@ -40,6 +40,7 @@ export class App implements OnInit {
   readonly skeletonItems = Array.from({ length: 6 }, (_, i) => i);
   filterText = signal('');
   private dependencyCache = new Map<string, string[]>();
+
   filteredPackages = computed(() => {
     const text = this.filterText().toLowerCase().trim();
     if (!text) return this.packages();
@@ -59,7 +60,6 @@ export class App implements OnInit {
     this.loadAll();
   }
 
-
   private loadAll() {
     this.loading.set(true);
     this.dependenciesLoading.set(true);
@@ -70,23 +70,41 @@ export class App implements OnInit {
     this.packagesService.getAll().pipe(
       switchMap(packages => {
         this.packages.set(packages);
-        queueMicrotask(() => {
-          this.loading.set(false);
-        });
+        queueMicrotask(() => this.loading.set(false));
 
         const dependencyCalls = packages.map(pkg =>
           this.packagesService.getDependencies(pkg.id).pipe(
             map(deps => ({ id: pkg.id, deps })),
-            catchError(err => {
-              console.log(`✖ Failed to load dependencies for ${pkg.id}`, err);
+            catchError((err: unknown) => {
+              const message = err instanceof Error ? err.message : String(err);
+
+              console.log(
+                `%c✖ Failed to load dependencies for ${pkg.id}: ${message}`,
+                'color:#F44336; font-weight:bold;'
+              );
+
+              this.snackBar.open(`Failed to load ${pkg.id} dependencies`, 'OK', {
+                duration: 2000
+              });
+
               return of({ id: pkg.id, deps: [] });
             })
           )
         );
 
         return forkJoin(dependencyCalls).pipe(
-          catchError(err => {
-            console.log(`✖ Global dependency loading failure`, err);
+          catchError((err: unknown) => {
+            const message = err instanceof Error ? err.message : String(err);
+
+            console.log(
+              `%c✖ Global dependency loading failure: ${message}`,
+              'color:#F44336; font-weight:bold;'
+            );
+
+            this.snackBar.open('Failed to load dependencies', 'OK', {
+              duration: 2000
+            });
+
             return of([]);
           })
         );
@@ -116,7 +134,10 @@ export class App implements OnInit {
     if (deps) {
       this.highlightedDependencies.set(new Set(deps));
     } else {
-      console.log(`🎉 ~ Dependencies NOT loaded yet for ${pkg.id}`);
+      console.log(
+        `%cDependencies NOT loaded yet for ${pkg.id}`,
+        'color:#FF9800; font-weight:bold;'
+      );
       this.highlightedDependencies.set(new Set());
     }
   }
