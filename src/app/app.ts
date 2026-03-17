@@ -9,6 +9,7 @@ import { Theme, ThemeService } from './services/theme.service';
 import { SinglePackageCard } from './components/single-package-card/single-package-card.component';
 import { Packages } from './services/packages.service';
 import { PackageSummary } from './interfaces/package-summary.interface';
+import { catchError, forkJoin, map, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -52,16 +53,35 @@ export class App implements OnInit {
       this.currentTheme = theme;
     });
 
-    this.packagesService.getAll().subscribe(packages => {
-      this.packages.set(packages);
+    this.packagesService.getAll().pipe(
+      switchMap(packages => {
+        this.packages.set(packages);
 
-      packages.forEach(pkg => {
-        this.packagesService.getDependencies(pkg.id).subscribe(deps => {
-          this.dependencyCache.set(pkg.id, deps);
-          console.log(`🎉 ~ Dependencies preloaded for ${pkg.id}:`, deps);
-        });
+        const dependencyCalls = packages.map(pkg =>
+          this.packagesService.getDependencies(pkg.id).pipe(
+            map(deps => {
+              return { id: pkg.id, deps };
+            }),
+            catchError(err => {
+              console.log(`%c✖ Failed to load dependencies for ${pkg.id}`, 'color:#F44336; font-weight:bold;', err);
+              return of({ id: pkg.id, deps: [] });
+            })
+          )
+        );
+
+        return forkJoin(dependencyCalls).pipe(
+          catchError(err => {
+            console.log(`%c✖ Global dependency loading failure`, 'color:#F44336; font-weight:bold;', err);
+            return of([]);
+          })
+        );
+      })
+    ).subscribe(results => {
+      results.forEach(({ id, deps }) => {
+        this.dependencyCache.set(id, deps);
       });
 
+      console.log('%c✔ All dependency requests completed', 'color:#FF9800; font-weight:bold;');
       this.loading = false;
     });
   }
@@ -72,7 +92,6 @@ export class App implements OnInit {
     const deps = this.dependencyCache.get(pkg.id);
 
     if (deps) {
-      console.log(`🎉 ~ Dependencies already loaded for ${pkg.id}:`, deps);
       this.highlightedDependencies.set(new Set(deps));
     } else {
       console.log(`🎉 ~ Dependencies NOT loaded yet for ${pkg.id}`);
