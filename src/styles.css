@@ -5,6 +5,7 @@
   --pkg-border-hover: rgb(16 185 129);
   --pkg-border-dependency: rgb(56 189 248);
   --pkg-header-hover: rgb(16 185 129);
+  --pkg-header-scope-hover: rgb(30, 116, 84);
   --pkg-header-dependency: rgb(56 189 248);
   --pkg-header-bg: rgba(0, 0, 0, 0.03);
   --pkg-scope: rgb(16 185 129);
@@ -17,6 +18,7 @@ html.dark-mode {
   --pkg-border-hover: rgb(52 211 153);
   --pkg-border-dependency: rgb(125 211 252);
   --pkg-header-hover: rgb(52 211 153);
+  --pkg-header-scope-hover: rgb(186, 235, 217);
   --pkg-header-dependency: rgb(125 211 252);
   --pkg-header-bg: rgba(255, 255, 255, 0.05);
   --pkg-scope: rgb(52 211 153);

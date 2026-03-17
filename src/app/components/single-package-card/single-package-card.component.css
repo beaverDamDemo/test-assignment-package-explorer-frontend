@@ -68,6 +68,18 @@ mat-card {
   font-size: 0.875rem;
 }
 
+.package-card .package-header {
+  transition: background-color 150ms ease;
+  background-color: rgba(0, 70, 0, 0.08);
+}
+
+.package-card.is-hovered .package-header {
+  background-color: rgba(0, 100, 0, 0.15);
+}
+.package-card.is-hovered .package-scope {
+  color: var(--pkg-header-scope-hover);
+}
+
 .downloads {
   display: flex;
   align-items: center;
