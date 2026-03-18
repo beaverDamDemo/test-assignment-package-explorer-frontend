@@ -85,9 +85,9 @@ export class App implements OnInit {
                 'color:#F44336; font-weight:bold;'
               );
 
-              this.snackBar.open(`Failed to load ${pkg.id} dependencies`, 'OK', {
-                duration: 2000
-              });
+              // this.snackBar.open(`Failed to load ${pkg.id} dependencies`, 'OK', {
+              //   duration: 2000
+              // });
 
               return of({ id: pkg.id, deps: [] });
             })
@@ -103,9 +103,9 @@ export class App implements OnInit {
               'color:#F44336; font-weight:bold;'
             );
 
-            this.snackBar.open('Failed to load dependencies', 'OK', {
-              duration: 2000
-            });
+            // this.snackBar.open('Failed to load dependencies', 'OK', {
+            //   duration: 2000
+            // });
 
             this.errorMessage.set('Failed to load dependency details.');
             this.dependenciesLoading.set(false);
@@ -121,9 +121,9 @@ export class App implements OnInit {
           'color:#F44336; font-weight:bold;'
         );
 
-        this.snackBar.open('Failed to load packages', 'OK', {
-          duration: 2000
-        });
+        // this.snackBar.open('Failed to load packages', 'OK', {
+        //   duration: 2000
+        // });
 
         this.loading.set(false);
         this.dependenciesLoading.set(false);
@@ -142,9 +142,9 @@ export class App implements OnInit {
 
       this.dependenciesLoading.set(false);
 
-      this.snackBar.open('Dependencies loaded successfully!', 'OK', {
-        duration: 1750
-      });
+      // this.snackBar.open('Dependencies loaded successfully!', 'OK', {
+      //   duration: 1750
+      // });
     });
   }
 
