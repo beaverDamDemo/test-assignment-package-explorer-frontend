@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
-import { of, Subject } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 import { Component, Input } from '@angular/core';
 import { App } from './app';
 import { Packages } from './services/packages.service';
@@ -95,6 +95,22 @@ describe('App Component (Vitest)', () => {
     await Promise.resolve();
 
     expect(component.loading()).toBe(false);
+  });
+
+  it('should set an error message and stop loading when getAll fails', async () => {
+    packagesServiceMock.getAll = vi.fn().mockReturnValue(throwError(() => new Error('network')));
+
+    const fixture = TestBed.createComponent(App);
+    const component = fixture.componentInstance;
+
+    theme$.next('light');
+    fixture.detectChanges();
+
+    await Promise.resolve();
+
+    expect(component.loading()).toBe(false);
+    expect(component.dependenciesLoading()).toBe(false);
+    expect(component.errorMessage()).toContain('Unable to load packages');
   });
 
   it('should set hoveredPackage on hover start', () => {

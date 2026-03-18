@@ -35,6 +35,7 @@ export class App implements OnInit {
   private readonly themeService = inject(ThemeService);
   currentYear = new Date().getFullYear();
   packages = signal<PackageSummary[]>([]);
+  errorMessage = signal<string | null>(null);
   hoveredPackage = signal<string | null>(null);
   highlightedDependencies = signal<Set<string>>(new Set());
   readonly skeletonItems = Array.from({ length: 6 }, (_, i) => i);
@@ -63,6 +64,7 @@ export class App implements OnInit {
   private loadAll() {
     this.loading.set(true);
     this.dependenciesLoading.set(true);
+    this.errorMessage.set(null);
 
     this.packages.set([]);
     this.dependencyCache.clear();
@@ -105,11 +107,35 @@ export class App implements OnInit {
               duration: 2000
             });
 
+            this.errorMessage.set('Failed to load dependency details.');
+            this.dependenciesLoading.set(false);
             return of([]);
           })
         );
+      }),
+      catchError((err: unknown) => {
+        const message = err instanceof Error ? err.message : String(err);
+
+        console.log(
+          `%c✖ Failed to load packages: ${message}`,
+          'color:#F44336; font-weight:bold;'
+        );
+
+        this.snackBar.open('Failed to load packages', 'OK', {
+          duration: 2000
+        });
+
+        this.loading.set(false);
+        this.dependenciesLoading.set(false);
+        this.errorMessage.set('Unable to load packages. Please try again later.');
+
+        return of(null);
       })
     ).subscribe(results => {
+      if (!results) {
+        return;
+      }
+
       results.forEach(({ id, deps }) => {
         this.dependencyCache.set(id, deps);
       });
