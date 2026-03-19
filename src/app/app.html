@@ -84,8 +84,8 @@
         No packages match "<strong>{{ filterText() }}</strong>". Try a different filter or <button mat-button
           class="p-0" (click)="filterText.set('')">clear</button>.
         } @else {
-        There are no packages available right now. Try <button mat-button class="p-0"
-          (click)="reload()">reloading</button>.
+        There are no packages available right now.
+        <button mat-raised-button color="primary" (click)="reload()">Try again</button>
         }
       </p>
     </div>
