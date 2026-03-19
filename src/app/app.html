@@ -64,7 +64,8 @@
       </div>
       }
     </div>
-    } @else if (errorMessage()) {
+    } @else {
+    @if (!loading() && errorMessage() && loading() === false && hasLoaded()=== true) {
     <div class="flex flex-col items-center justify-center gap-3 rounded border border-red-200 bg-red-50 p-8 text-center"
       role="alert" aria-live="assertive">
       <mat-icon class="text-red-600" aria-hidden="true">error_outline</mat-icon>
@@ -80,6 +81,7 @@
         [disabled]="dependenciesLoading()" />
       }
     </div>
+    }
     }
   </main>
 

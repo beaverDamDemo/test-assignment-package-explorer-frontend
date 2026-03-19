@@ -9,7 +9,7 @@ import { Theme, ThemeService } from './services/theme.service';
 import { SinglePackageCard } from './components/single-package-card/single-package-card.component';
 import { Packages } from './services/packages.service';
 import { PackageSummary } from './interfaces/package-summary.interface';
-import { catchError, forkJoin, map, of, switchMap } from 'rxjs';
+import { catchError, forkJoin, finalize, map, of, switchMap } from 'rxjs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
@@ -36,6 +36,7 @@ export class App implements OnInit {
   currentYear = new Date().getFullYear();
   packages = signal<PackageSummary[]>([]);
   errorMessage = signal<string | null>(null);
+  hasLoaded = signal(false);
   hoveredPackage = signal<string | null>(null);
   highlightedDependencies = signal<Set<string>>(new Set());
   readonly skeletonItems = Array.from({ length: 6 }, (_, i) => i);
@@ -65,6 +66,7 @@ export class App implements OnInit {
     this.loading.set(true);
     this.dependenciesLoading.set(true);
     this.errorMessage.set(null);
+    this.hasLoaded.set(false);
 
     this.packages.set([]);
     this.dependencyCache.clear();
@@ -72,7 +74,6 @@ export class App implements OnInit {
     this.packagesService.getAll().pipe(
       switchMap(packages => {
         this.packages.set(packages);
-        queueMicrotask(() => this.loading.set(false));
 
         const dependencyCalls = packages.map(pkg =>
           this.packagesService.getDependencies(pkg.id).pipe(
@@ -125,11 +126,14 @@ export class App implements OnInit {
         //   duration: 2000
         // });
 
-        this.loading.set(false);
-        this.dependenciesLoading.set(false);
         this.errorMessage.set('Unable to load packages. Please try again later.');
 
         return of(null);
+      }),
+      finalize(() => {
+        this.loading.set(false);
+        this.dependenciesLoading.set(false);
+        this.hasLoaded.set(true);
       })
     ).subscribe(results => {
       if (!results) {
