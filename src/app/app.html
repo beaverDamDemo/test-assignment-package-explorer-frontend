@@ -74,6 +74,22 @@
       <button mat-raised-button color="primary" (click)="reload()">Try again</button>
     </div>
     } @else {
+    @if (!loading() && !errorMessage() && hasLoaded() && filteredPackages().length === 0) {
+    <div class="flex flex-col items-center justify-center rounded border border-gray-200 bg-gray-50 p-8 text-center"
+      role="status" aria-live="polite">
+      <mat-icon class="text-gray-500" aria-hidden="true">search_off</mat-icon>
+      <p class="text-lg font-semibold">No packages found</p>
+      <p class="text-sm text-gray-600">
+        @if (filterText()) {
+        No packages match "<strong>{{ filterText() }}</strong>". Try a different filter or <button mat-button
+          class="p-0" (click)="filterText.set('')">clear</button>.
+        } @else {
+        There are no packages available right now. Try <button mat-button class="p-0"
+          (click)="reload()">reloading</button>.
+        }
+      </p>
+    </div>
+    } @else {
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       @for (p of filteredPackages(); track p.id) {
       <app-single-package-card [pkg]="p" [isHovered]="hoveredPackage() === p.id"
@@ -81,6 +97,7 @@
         [disabled]="dependenciesLoading()" />
       }
     </div>
+    }
     }
     }
   </main>
