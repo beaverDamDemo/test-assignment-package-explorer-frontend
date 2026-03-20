@@ -79,7 +79,9 @@ mat-card {
   background: var(--mdc-theme-surface);
   color: var(--mdc-theme-on-surface);
 }
-
+html.dark-mode input {
+  border-color: rgba(255, 255, 255, 0.38) !important;
+}
 html.dark-mode .mat-mdc-form-field,
 html.dark-mode .mat-mdc-text-field,
 html.dark-mode .mat-mdc-select {

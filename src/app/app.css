@@ -145,6 +145,7 @@
 input {
   min-height: 56px;
   margin-top: -12px;
+  border-color: #9e9e9e;
 }
 
 mat-form-field {
