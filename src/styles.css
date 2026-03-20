@@ -2,6 +2,49 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 :root {
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  --color-red-50: #fef2f2;
+  --color-red-200: #fecaca;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-red-700: #b91c1c;
+
+  --color-green-400: #34d399;
+  --color-green-500: #16a34a;
+  --color-green-600: #059669;
+
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+
+  --color-cyan-400: #26c6da;
+  --color-cyan-600: #00838f;
+
+  --color-yellow-select: #ffef40;
+
+  --mdc-theme-background: #ffffff;
+  --mdc-theme-surface: #ffffff;
+  --mdc-theme-on-surface: #000000;
+  --mdc-theme-primary: #00acc1;
+  --mdc-theme-on-primary: #ffffff;
+  --mdc-theme-secondary: #26c6da;
+  --mdc-theme-on-secondary: #000000;
+
   --pkg-border-hover: rgb(16 185 129);
   --pkg-border-dependency: rgb(56 189 248);
   --pkg-header-hover: rgb(16 185 129);
@@ -13,8 +56,34 @@
   --pkg-icon: rgb(56 189 248);
   --pkg-bg: rgb(255 255 255);
   --pkg-text: rgb(23 23 23);
+
+  --input-border-light: #9e9e9e;
+  --input-border-dark: rgba(255, 255, 255, 0.38);
+
+  --skeleton-line-light: rgba(0, 0, 0, 0.12);
+  --skeleton-line-dark: rgba(255, 255, 255, 0.12);
+
+  --state-error-bg: #fef2f2;
+  --state-error-border: #fecaca;
+  --state-error-icon: #dc2626;
+  --state-error-text: #b91c1c;
+
+  --state-empty-bg: #f9fafb;
+  --state-empty-border: #e5e7eb;
+  --state-empty-title: #374151;
+  --state-empty-text: #4b5563;
+  --state-empty-icon: #4b5563;
 }
+
 html.dark-mode {
+  --mdc-theme-background: #0e1113;
+  --mdc-theme-surface: #171b1e;
+  --mdc-theme-on-surface: #d6d9db;
+  --mdc-theme-primary: #00838f;
+  --mdc-theme-on-primary: #e0f7fa;
+  --mdc-theme-secondary: #00695c;
+  --mdc-theme-on-secondary: #c8e6c9;
+
   --pkg-border-hover: rgb(52 211 153);
   --pkg-border-dependency: rgb(125 211 252);
   --pkg-header-hover: rgb(52 211 153);
