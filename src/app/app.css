@@ -76,3 +76,68 @@
 .deps-loader {
   height: 3px;
 }
+.state-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  gap: 0.75rem;
+}
+
+.state-icon {
+  font-size: 40px;
+  height: 40px;
+  width: 40px;
+}
+
+.state-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.state-message {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.state-action {
+  margin-top: 0.5rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.error-state {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+}
+
+.error-state .state-icon {
+  color: #dc2626;
+}
+
+.error-state .state-title,
+.error-state .state-message {
+  color: #b91c1c;
+}
+
+.empty-state {
+  background-color: #f9fafb;
+  border-color: #e5e7eb;
+}
+
+.empty-state .state-icon {
+  color: #4b5563;
+}
+
+.empty-state .state-title {
+  color: #374151;
+}
+
+.empty-state .state-message {
+  color: #4b5563;
+}

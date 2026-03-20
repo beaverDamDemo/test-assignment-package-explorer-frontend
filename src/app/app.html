@@ -63,28 +63,32 @@
     </div>
     } @else {
     @if (!loading() && errorMessage() && loading() === false && hasLoaded()=== true) {
-    <div class="flex flex-col items-center justify-center gap-3 rounded border border-red-200 bg-red-50 p-8 text-center"
-      role="alert" aria-live="assertive">
-      <mat-icon class="!text-gray-700" aria-hidden="true">error_outline</mat-icon>
-      <p class="text-lg font-semibold text-gray-700">Unable to load packages</p>
-      <p class="text-sm text-gray-700">{{ errorMessage() }}</p>
-      <button mat-raised-button color="primary" (click)="reload()">Try again</button>
+    <!-- ERROR STATE -->
+    <div class="state-card error-state" role="alert" aria-live="assertive">
+      <mat-icon class="state-icon" aria-hidden="true">error_outline</mat-icon>
+      <p class="state-title">Unable to load packages</p>
+      <p class="state-message">{{ errorMessage() }}</p>
+      <div class="state-action">
+        <button mat-raised-button color="primary" (click)="reload()">Try again</button>
+      </div>
     </div>
     } @else {
     @if (!loading() && !errorMessage() && hasLoaded() && filteredPackages().length === 0) {
-    <div class="flex flex-col items-center justify-center rounded border border-gray-200 bg-gray-50 p-8 text-center"
-      role="status" aria-live="polite">
-      <mat-icon class="!text-gray-700" aria-hidden="true">search_off</mat-icon>
-      <p class="text-lg font-semibold text-gray-700">No packages found</p>
-      <p class="text-sm text-gray-600">
+    <!-- EMPTY STATE -->
+    <div class="state-card empty-state" role="status" aria-live="polite">
+      <mat-icon class="state-icon" aria-hidden="true">search_off</mat-icon>
+      <p class="state-title">No packages found</p>
+      <p class="state-message">
         @if (filterText()) {
-        No packages match "<strong>{{ filterText() }}</strong>". Try a different filter or <button mat-button
-          class="p-0" (click)="filterText.set('')">clear</button>.
+        No packages match "<strong>{{ filterText() }}</strong>". Try a different filter or
+        <button mat-button class="p-0" (click)="filterText.set('')">clear</button>.
         } @else {
         There are no packages available right now.
-        <button mat-raised-button color="primary" (click)="reload()">Try again</button>
         }
       </p>
+      <div class="state-action">
+        <button mat-raised-button color="primary" (click)="reload()">Try again</button>
+      </div>
     </div>
     } @else {
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
