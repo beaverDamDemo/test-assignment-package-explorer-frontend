@@ -22,9 +22,6 @@
   </header>
 
   <main class="flex-grow p-3" [attr.aria-busy]="loading()">
-    @if (loading()) {
-    <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
-    }
     <div class="mb-4 flex items-center gap-2">
       <div class="relative flex-grow">
         <input type="text" placeholder="Filter packages by name..."
