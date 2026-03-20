@@ -68,8 +68,8 @@
     @if (!loading() && errorMessage() && loading() === false && hasLoaded()=== true) {
     <div class="flex flex-col items-center justify-center gap-3 rounded border border-red-200 bg-red-50 p-8 text-center"
       role="alert" aria-live="assertive">
-      <mat-icon class="text-red-600" aria-hidden="true">error_outline</mat-icon>
-      <p class="text-lg font-semibold">Unable to load packages</p>
+      <mat-icon class="!text-gray-700" aria-hidden="true">error_outline</mat-icon>
+      <p class="text-lg font-semibold text-gray-700">Unable to load packages</p>
       <p class="text-sm text-gray-700">{{ errorMessage() }}</p>
       <button mat-raised-button color="primary" (click)="reload()">Try again</button>
     </div>
