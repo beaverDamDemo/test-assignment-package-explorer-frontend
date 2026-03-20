@@ -151,3 +151,7 @@ input {
 mat-form-field {
   margin-top: 10px;
 }
+
+.refresh-button {
+  margin-top: -14px;
+}
