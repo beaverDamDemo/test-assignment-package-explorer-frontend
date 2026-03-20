@@ -155,3 +155,12 @@ mat-form-field {
 .refresh-button {
   margin-top: -14px;
 }
+html.dark-mode .refresh-button:focus-visible mat-icon {
+  color: var(--pkg-text);
+}
+html.dark-mode .refresh-button:focus-visible {
+  background-color: rgba(255, 255, 255, 0.12);
+  outline: 2px solid var(--pkg-text);
+  outline-offset: 3px;
+  border-radius: 50%;
+}

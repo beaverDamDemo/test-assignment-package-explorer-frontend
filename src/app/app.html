@@ -104,7 +104,7 @@
       @for (p of filteredPackages(); track p.id) {
       <app-single-package-card [pkg]="p" [isHovered]="hoveredPackage() === p.id"
         [isDependency]="highlightedDependencies().has(p.id)" (hoverStart)="onHoverStart(p)" (hoverEnd)="onHoverEnd()"
-        [disabled]="dependenciesLoading()" />
+        [disabled]="dependenciesLoading()" tabindex="0" />
       }
     </div>
     }
