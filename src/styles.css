@@ -73,6 +73,15 @@
   --state-empty-title: #374151;
   --state-empty-text: #4b5563;
   --state-empty-icon: #4b5563;
+  /*
+  --action-text: #374151;
+  --action-hover: #111827;
+  --action-focus-ring: rgba(0, 0, 0, 0.4); */
+
+  --clear-btn-bg: #e5e7eb;
+  --clear-btn-text: #111827;
+  --clear-btn-hover-bg: #d1d5db;
+  --clear-btn-focus-ring: rgba(0, 0, 0, 0.4);
 }
 
 html.dark-mode {
@@ -95,6 +104,15 @@ html.dark-mode {
   --pkg-icon: rgb(125 211 252);
   --pkg-bg: rgb(31 41 55);
   --pkg-text: rgb(229 231 235);
+
+  /* --action-text: #e5e7eb;
+  --action-hover: #ffffff;
+  --action-focus-ring: rgba(255, 255, 255, 0.6); */
+
+  --clear-btn-bg: #374151;
+  --clear-btn-text: #f3f4f6;
+  --clear-btn-hover-bg: #4b5563;
+  --clear-btn-focus-ring: rgba(255, 255, 255, 0.6);
 }
 
 html,

@@ -163,3 +163,33 @@ html.dark-mode .refresh-button:focus-visible {
   outline-offset: 3px;
   border-radius: 50%;
 }
+
+.clear-button {
+  background-color: var(--clear-btn-bg);
+  color: var(--clear-btn-text) !important;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  line-height: 1;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.clear-button:hover {
+  background-color: var(--clear-btn-hover-bg);
+}
+
+.clear-button:focus-visible {
+  outline: 2px solid var(--clear-btn-focus-ring);
+  outline-offset: 2px;
+}
+
+.clear-button:active {
+  transform: scale(0.97);
+}
