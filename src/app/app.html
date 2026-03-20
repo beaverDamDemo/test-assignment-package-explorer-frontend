@@ -34,6 +34,15 @@
         </button>
         }
       </div>
+      <mat-form-field appearance="outline" class="w-40">
+        <mat-label>Sort by</mat-label>
+        <mat-select [value]="sortMode()" (selectionChange)="sortMode.set($event.value)">
+          <mat-option value="alpha">Alphabetical</mat-option>
+          <mat-option value="downloads">Downloads</mat-option>
+          <mat-option value="deps">Dependencies</mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <button mat-icon-button (click)="reload()">
         <mat-icon>refresh</mat-icon>
       </button>

@@ -11,6 +11,8 @@ import { Packages } from './services/packages.service';
 import { PackageSummary } from './interfaces/package-summary.interface';
 import { catchError, forkJoin, finalize, map, of, switchMap } from 'rxjs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +24,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatProgressBarModule,
     MatCardModule,
     SinglePackageCard,
+    MatFormFieldModule,
+    MatSelectModule,
     MatSnackBarModule
   ],
   templateUrl: './app.html',
@@ -42,14 +46,29 @@ export class App implements OnInit {
   readonly skeletonItems = Array.from({ length: 6 }, (_, i) => i);
   filterText = signal('');
   private dependencyCache = new Map<string, string[]>();
+  sortMode = signal<'alpha' | 'downloads' | 'deps'>('alpha');
 
   filteredPackages = computed(() => {
     const text = this.filterText().toLowerCase().trim();
-    if (!text) return this.packages();
-    return this.packages().filter(p =>
-      p.id.toLowerCase().includes(text) ||
-      p.id.split('/').pop()?.toLowerCase().includes(text)
-    );
+    const mode = this.sortMode();
+    let list = this.packages();
+
+    if (text) {
+      list = list.filter(p =>
+        p.id.toLowerCase().includes(text) ||
+        p.id.split('/').pop()?.toLowerCase().includes(text)
+      );
+    }
+
+    if (mode === 'alpha') {
+      list = [...list].sort((a, b) => a.id.localeCompare(b.id));
+    } else if (mode === 'downloads') {
+      list = [...list].sort((a, b) => b.weeklyDownloads - a.weeklyDownloads);
+    } else if (mode === 'deps') {
+      list = [...list].sort((a, b) => b.dependencyCount - a.dependencyCount);
+    }
+
+    return list;
   });
 
   constructor(private packagesService: Packages, private snackBar: MatSnackBar) { }
