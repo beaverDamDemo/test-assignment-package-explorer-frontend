@@ -141,3 +141,12 @@
 .empty-state .state-message {
   color: #4b5563;
 }
+
+input {
+  min-height: 56px;
+  margin-top: -12px;
+}
+
+mat-form-field {
+  margin-top: 10px;
+}
